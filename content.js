@@ -1,1 +1,2 @@
-alert('Go do something else bro')
+console.log("Hi from greet");
+
