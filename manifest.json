@@ -2,16 +2,16 @@
     "name": "stretchy",
     "version": "1.0",
     "manifest_version": 2,
+    "background" : {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
     "content_scripts": [
         {
-           "matches": ["https://www.facebook.com/*", "https://twitter.com/*", "https://www.instagram.com/*", "https://www.youtube.com/*",
-             "https://www.reddit.com/*"],
+           "matches" : ["http://*/*", "https://*/*"],
            "js": ["content.js"] 
         }
     ],
-    "background" : {
-        "scripts": ["background.js"]
-    },
     "browser_action": {
         "default_icon": {
             "16": "16icon.png",
@@ -20,5 +20,6 @@
             },
         "default_popup": "popup.html",
         "default_title": "Stretch From Home"
-    }
+    },
+    "permissions": ["notifications"]
 }
