@@ -2,8 +2,8 @@ document.getElementById("setStretchDuration").addEventListener('click', () => {
     chrome.runtime.sendMessage('', {
         type: 'notification',
         options: {
-          title: 'Just wanted to notify you',
-          message: 'great it is!',
+          title: 'Time for a wellness break!',
+          message: 'Click for a short video!',
           iconUrl: 'icon3.png',
           type: 'basic'
         },
@@ -15,12 +15,25 @@ document.getElementById("setLongDuration").addEventListener('click', () => {
     chrome.runtime.sendMessage('', {
         type: 'notification',
         options: {
-          title: 'Just Long time  to notify you',
-          message: 'great it is!',
+          title: "You've earned this break",
+          message: 'Click for a 10 minute video.',
           iconUrl: 'icon3.png',
           type: 'basic'
         },
         var: 'longy'
+      });
+});
+
+document.getElementById("getStretch").addEventListener('click', () => {
+    chrome.runtime.sendMessage('', {
+        type: 'notification',
+        options: {
+          title: "Let's stretch!",
+          message: 'Click for a short video!',
+          iconUrl: 'icon3.png',
+          type: 'basic'
+        },
+        var: 'shorty'
       });
 });
 
