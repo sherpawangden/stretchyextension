@@ -38,12 +38,12 @@
 <form>
   <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> Get a stretch every </a>
   <br>
-  <input id = "stretchMinutes" type="text" name="Time" value = "0" size = "5">
-  <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> minutes </a>
+    <input id = "stretchMinutes" type="number" min="1" name="Time" value = "30" size = "5">
+    <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> minutes </a>
 </form>
 <button id = "setStretchDuration">Set Stretch </button>
 </div>
-<br>
+<br>    
 <div id = "element1">
     <br>
 </div>
@@ -53,7 +53,7 @@
 <form>
   <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> Long stretch every</a>
   <br>
-  <input id = "longMinutes" type="text" name="Time" value = "0" size="5">
+  <input id = "longMinutes" type="number" min="1" name="Time" value = "60" size="5">
   <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> minutes </a>
 </form>
 <button id = "setLongDuration">Set Long Stretch </button>
@@ -64,11 +64,12 @@
 <br>
 <div class = "sliderWrapper">
 <label class = "switch">
-    <input type = "checkbox">
+    <input id = "enable" type = "checkbox">
     <span class = "slider round"></span>
 </label>
 <a style = "font-size: 20px; font-family: Verdana">&nbsp; Enabled </a>
 </div>
 <script src="popup.js"></script>
+<script src="timer.js"></script>
 </body>
 </html>

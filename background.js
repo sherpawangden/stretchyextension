@@ -1,5 +1,7 @@
 var bool = 0;
 
+//Checks if the message is for a short or a long message and creates notification
+//accordingly 
 chrome.runtime.onMessage.addListener(data => {
     bool = 0;
     if (data.var == "shorty"){
@@ -23,6 +25,7 @@ var longVideos = Array("https://youtu.be/w1INfs260DY?t=470", "https://www.youtub
 "https://www.youtube.com/watch?v=6fnLKyRJsrs", "https://www.youtube.com/watch?v=HV_eJ82KE0Q", "https://www.youtube.com/watch?v=w3C08dhJ_SM", "https://www.youtube.com/watch?v=EHMRMibVO2I",
 "https://www.youtube.com/watch?v=4pKly2JojMw", "https://www.youtube.com/watch?v=VaoV1PrYft4")
   
+//When button is clicked, picks a video accordingly.
 chrome.notifications.onClicked.addListener(function(notifId) {
       var longItem = longVideos[Math.floor((Math.random() * longVideos.length))];
       var item = videos[Math.floor((Math.random() * videos.length))];
