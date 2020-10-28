@@ -1,4 +1,37 @@
 var bool = 0;
+var timerDuration;
+var yes;
+
+var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
+"Well, well, well, if it isn't another stretch")
+
+var titleLong =  Array("You've earned this break!", "Let's take a few minutes away from the computer", "Let's get that body moving!", "Let's open up a can of movement" )
+var timerDuration
+
+function createAlarm(){
+    chrome.alarms.create('shortAlarm', {
+        delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
+}
+
+
+function clearAlarm(){
+    chrome.alarms.clear('shortAlarm');
+    chrome.storage.local.set({'saved': 'no'}, function(){});
+}
+
+chrome.alarms.onAlarm.addListener(onAlarm);
+
+function onAlarm(shortAlarm) {
+    var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
+    var options = {
+        title: shortTitle,
+        message: 'Click for a short video!',
+        iconUrl: 'icon3.png',
+        type: 'basic'}
+    chrome.notifications.create('', options);
+}
+
+
 
 //Checks if the message is for a short or a long message and creates notification
 //accordingly 
@@ -6,6 +39,13 @@ chrome.runtime.onMessage.addListener(data => {
     bool = 0;
     if (data.var == "shorty"){
         bool = 1;
+    }
+    if (data.type == 'clearMessage') {
+        clearAlarm();
+    }
+    if (data.type == 'createMessage'){
+        timerDuration = data.timePeriod;
+        createAlarm();
     }
     if (data.type === 'notification') {
     chrome.notifications.create('', data.options);

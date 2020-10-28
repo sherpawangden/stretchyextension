@@ -28,14 +28,18 @@ checkAlarms();
 
 function createAlarm() {
     setMinutes()
-    chrome.alarms.create('shortAlarm', {
-    delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
+    chrome.runtime.sendMessage('', {
+        type: 'createMessage',
+        timePeriod: timerDuration
+      });
     chrome.storage.local.set({'time':Number(timerDuration)}, function(){});
     chrome.storage.local.set({'saved': 'yes'}, function(){});
 }
 
 function clearAlarm() {
-    chrome.alarms.clear('shortAlarm');
+    chrome.runtime.sendMessage('', {
+        type: 'clearMessage',
+      });
     chrome.storage.local.set({'saved': 'no'}, function(){});
 }
 
@@ -49,18 +53,12 @@ document.getElementById('enable').addEventListener('click', () => {
         enabled = 1;
         chrome.storage.local.set({'enabled': 1}, function(){});
         setMinutes();
-        createAlarm();
     }
 })
 
-chrome.alarms.onAlarm.addListener(onAlarm);
 
-function onAlarm(shortAlarm) {
-    sendNotifactionShort();
-}
 
 document.getElementById("setStretchDuration").addEventListener('click', () => {
-    setMinutes();
     if (enabled == 0) {
     document.getElementById('enable').click();
     chrome.storage.local.set({'enabled': 1}, function(){});
@@ -68,6 +66,11 @@ document.getElementById("setStretchDuration").addEventListener('click', () => {
     };
     createAlarm() });
 
+chrome.runtime.onMessage.addListener(data => {
+    if (data.type == 'sendNotification') {
+        sendNotifactionShort();
+    }
+})
 function sendNotifactionShort() {
     console.log('Send notification called.');
 
