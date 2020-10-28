@@ -1,9 +1,4 @@
 var enabled = 0;
-var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
-"Well, well, well, if it isn't another stretch")
-
-var titleLong =  Array("You've earned this break!", "Let's take a few minutes away from the computer", "Let's get that body moving!", "Let's open up a can of movement" )
-var timerDuration
 
 function setMinutes(){
     timerDuration = document.getElementById('stretchMinutes').value;
@@ -48,10 +43,15 @@ document.getElementById('enable').addEventListener('click', () => {
         clearAlarm();
         chrome.storage.local.set({'enabled': 0}, function(){});
         enabled = 0;
+        document.getElementById('EnabledText').innerHTML = '&nbsp; Disabled';
+        document.getElementById('EnabledText').style.color = " #7a7979";
+
     }
     else {
         enabled = 1;
         chrome.storage.local.set({'enabled': 1}, function(){});
+        document.getElementById('EnabledText').innerHTML = '&nbsp; Enabled';
+        document.getElementById('EnabledText').style.color = "#73d38b";
         setMinutes();
     }
 })
@@ -62,30 +62,11 @@ document.getElementById("setStretchDuration").addEventListener('click', () => {
     if (enabled == 0) {
     document.getElementById('enable').click();
     chrome.storage.local.set({'enabled': 1}, function(){});
-    enabled = 1;
+    enabled = 1;        
+    document.getElementById('EnabledText').innerHTML = '&nbsp; Enabled';
+    document.getElementById('EnabledText').style.color = "#73d38b";
     };
     createAlarm() });
-
-chrome.runtime.onMessage.addListener(data => {
-    if (data.type == 'sendNotification') {
-        sendNotifactionShort();
-    }
-})
-function sendNotifactionShort() {
-    console.log('Send notification called.');
-
-    var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
-    chrome.runtime.sendMessage('', {
-        type: 'notification',
-        options: {
-          title: shortTitle,
-          message: 'Click for a short video!',
-          iconUrl: 'icon3.png',
-          type: 'basic'
-        },
-        var: 'shorty'
-      });
-}
 
 document.getElementById("setLongDuration").addEventListener('click', () => {
     chrome.runtime.sendMessage('', {

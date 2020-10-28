@@ -11,35 +11,38 @@
 </html> -->
 
 <html>
-<head><title>Stretch</title></head>
+<head><title>Stretchy</title></head>
 <head>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<br>
 
 <div id = "header1">
-    <br>
-<a style = "font-size: 30px; font-family: Palatino; font-weight: 500;">Stretch </a>
+    <svg viewBox="0 0 500 500">
+        <path id="curve" d="M73.2,148.6c4-6.1,65.5-96.8,178.6-95.6c111.3,1.2,170.8,90.3,175.1,97" />
+        <text width="500">
+            <textPath xlink:href="#curve" startOffset="50%" text-anchor="middle"> Stretchy</textPath>
+        </text>
+        </svg>
 </div>
 
+<div id = "element1">
+    <br>
+<button class="button1" id = "getStretch">Get Stretch Right Now </button>
+</div>
 <br>
-
-<div id = "element1">
-    <br>
-<button id = "getStretch">Get Stretch Right Now </button>
-</div>
-<br>
 <div id = "element1">
     <br>
 </div>
 
 <div id = "element1">
-    <br>
+
 <form>
-  <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> Get a stretch every </a>
+  <a class = "bodyText" >Get a stretch every </a>
   <br>
-    <input id = "stretchMinutes" type="number" min="1" name="Time" value = "30" size = "5">
-    <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> minutes </a>
+    <input id = "stretchMinutes" type="number" min="1" name="Time" value = "30" size = "1">
+    <a class = "bodyText" > minutes </a>
 </form>
 <button id = "setStretchDuration">Set Stretch </button>
 </div>
@@ -51,10 +54,10 @@
 
 <div id = "element1">
 <form>
-  <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> Long stretch every</a>
+  <a class = "bodyText" > Long stretch every</a>
   <br>
-  <input id = "longMinutes" type="number" min="1" name="Time" value = "60" size="5">
-  <a style = "font-size: 14px; font-family: Verdana; font-weight: 150;"> minutes </a>
+  <input id = "longMinutes" type="number" min="1" name="Time" value = "60" size="1">
+  <a class = "bodyText" > minutes </a>
 </form>
 <button id = "setLongDuration">Set Long Stretch </button>
 <br>
@@ -62,12 +65,13 @@
 </div>
 <br>
 <br>
-<div class = "sliderWrapper">
+<div id = "sliderWrapper">
+    <br>
 <label class = "switch">
     <input id = "enable" type = "checkbox">
     <span class = "slider round"></span>
 </label>
-<a style = "font-size: 20px; font-family: Verdana">&nbsp; Enabled </a>
+<a id= 'EnabledText' style = "font-size: 20px; font-family: Verdana; color: #7a7979 ">&nbsp; Disabled </a>
 </div>
 <script src="popup.js"></script>
 </body>
