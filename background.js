@@ -1,5 +1,6 @@
 var bool = 0;
 var timerDuration;
+var longTimerDuration;
 var yes;
 
 var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
@@ -13,19 +14,44 @@ function createAlarm(){
         delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
 }
 
+function getNow(){
+    var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
+    var options = {
+        title: shortTitle,
+        message: 'Click for a short video!',
+        iconUrl: '48icon.png',
+        type: 'basic'}
+    chrome.notifications.create('', options);
+}
+
+function createLongAlarm(){
+    chrome.alarms.create('longAlarm', {
+        delayInMinutes: Number(longTimerDuration) * 60, periodInMinutes: Number(longTimerDuration) * 60});
+}
 
 function clearAlarm(){
     chrome.alarms.clear('shortAlarm');
-    chrome.storage.local.set({'saved': 'no'}, function(){});
+    chrome.alarms.clear('longAlarm');
 }
 
 chrome.alarms.onAlarm.addListener(onAlarm);
+chrome.alarms.onAlarm.addListener(onAlarmLong);
 
 function onAlarm(shortAlarm) {
     var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
     var options = {
         title: shortTitle,
         message: 'Click for a short video!',
+        iconUrl: '48icon.png',
+        type: 'basic'}
+    chrome.notifications.create('', options);
+}
+
+function onAlarmLong(longAlarm) {
+    var longTitle = titleLong[Math.floor((Math.random() * titleLong.length))];
+    var options = {
+        title: longTitle,
+        message: 'Click for a 10 minute video!',
         iconUrl: '48icon.png',
         type: 'basic'}
     chrome.notifications.create('', options);
@@ -47,10 +73,19 @@ chrome.runtime.onMessage.addListener(data => {
         timerDuration = data.timePeriod;
         createAlarm();
     }
+    if (data.type == 'createLongMessage'){
+        longTimerDuration = data.timePeriod;
+        createLongAlarm();
+    }
+
+    if (data.type == 'getNow'){
+        getNow();
+    }
     if (data.type === 'notification') {
     chrome.notifications.create('', data.options);
     }
   });
+
 
 var videos = Array("https://youtu.be/KBaSGF6kYqw?t=21","https://youtu.be/KBaSGF6kYqw?t=46","https://youtu.be/KBaSGF6kYqw?t=80",
 "https://youtu.be/KBaSGF6kYqw?t=98","https://youtu.be/KBaSGF6kYqw?t=127", "https://youtu.be/KBaSGF6kYqw?t=150",

@@ -7,7 +7,7 @@
     font-size: 18px;
     font-family: Verdana; 
     font-weight: 150;
-    line-height: 1.5;
+    line-height: 1.2;
     border-radius: 4px;
     margin: auto;
   }
@@ -19,6 +19,28 @@
     font-family: 'Palatino';
     height: 70px;
   }
+
+#sideText{
+  padding-top: 10px;
+  width:270px;
+  background-color: white;
+  text-align: center;
+  vertical-align: center;
+  line-height: 1.5;
+  margin: auto;
+  height: 25px;
+  }
+
+  #sideText1{
+    padding-top: 10px;
+    width:270px;
+    background-color: white;
+    text-align: center;
+    vertical-align: center;
+    line-height: 1.5;
+    margin: auto;
+    height: 15px;
+    }
 
 path {
   fill: transparent;
@@ -78,6 +100,12 @@ button:hover {
 .bodyText{
   color:#497d59;
   font-size: 16.5px;
+}
+
+.sideText{
+  color:#497d59;
+  font-size: 10px;
+  font-style: italic;
 }
 
 body {
