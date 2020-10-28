@@ -26,7 +26,7 @@ function onAlarm(shortAlarm) {
     var options = {
         title: shortTitle,
         message: 'Click for a short video!',
-        iconUrl: 'icon3.png',
+        iconUrl: '48icon.png',
         type: 'basic'}
     chrome.notifications.create('', options);
 }
