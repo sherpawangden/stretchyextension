@@ -10,23 +10,44 @@ function setMinutes(){
     console.log("the value is :",timerDuration);
 }
 
+
+function checkAlarms(){
+    var storedTime;
+    chrome.storage.local.get(['time'],function(result) {
+        storedTime = result.time
+    });
+    chrome.storage.local.get(['saved'],function(result) {
+        if (result.saved == 'yes'){
+            document.getElementById('stretchMinutes').value = Number(storedTime);
+            document.getElementById('enable').click();        
+        }
+    });
+}
+
+checkAlarms();
+
 function createAlarm() {
     setMinutes()
     chrome.alarms.create('shortAlarm', {
     delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
+    chrome.storage.local.set({'time':Number(timerDuration)}, function(){});
+    chrome.storage.local.set({'saved': 'yes'}, function(){});
 }
 
 function clearAlarm() {
     chrome.alarms.clear('shortAlarm');
+    chrome.storage.local.set({'saved': 'no'}, function(){});
 }
 
 document.getElementById('enable').addEventListener('click', () => {
     if (enabled == 1) {
         clearAlarm();
+        chrome.storage.local.set({'enabled': 0}, function(){});
         enabled = 0;
     }
     else {
         enabled = 1;
+        chrome.storage.local.set({'enabled': 1}, function(){});
         setMinutes();
         createAlarm();
     }
@@ -42,6 +63,7 @@ document.getElementById("setStretchDuration").addEventListener('click', () => {
     setMinutes();
     if (enabled == 0) {
     document.getElementById('enable').click();
+    chrome.storage.local.set({'enabled': 1}, function(){});
     enabled = 1;
     };
     createAlarm() });
