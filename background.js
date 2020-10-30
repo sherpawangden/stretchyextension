@@ -1,17 +1,24 @@
-var bool = 0;
 var timerDuration;
+var bool;
 var longTimerDuration;
-var yes;
+var abc;
 
 var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
 "Well, well, well, if it isn't another stretch")
 
 var titleLong =  Array("You've earned this break!", "Let's take a few minutes away from the computer", "Let's get that body moving!", "Let's open up a can of movement" )
-var timerDuration
+
 
 function createAlarm(){
+    console.log("Thi sis called");
     chrome.alarms.create('shortAlarm', {
         delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
+}
+
+function createLongAlarm(){
+    console.log("this is also called");
+    chrome.alarms.create('longAlarm', {
+        delayInMinutes: (Number(longTimerDuration) * 60), periodInMinutes: (Number(longTimerDuration) * 60)});
 }
 
 function getNow(){
@@ -24,65 +31,61 @@ function getNow(){
     chrome.notifications.create('', options);
 }
 
-function createLongAlarm(){
-    chrome.alarms.create('longAlarm', {
-        delayInMinutes: Number(longTimerDuration) * 60, periodInMinutes: Number(longTimerDuration) * 60});
-}
-
 function clearAlarm(){
-    chrome.alarms.clear('shortAlarm');
-    chrome.alarms.clear('longAlarm');
+    chrome.alarms.clearAll();
 }
 
 chrome.alarms.onAlarm.addListener(onAlarm);
-chrome.alarms.onAlarm.addListener(onAlarmLong);
 
 function onAlarm(shortAlarm) {
+    console.log("alarm called");
     var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
     var options = {
         title: shortTitle,
         message: 'Click for a short video!',
         iconUrl: '48icon.png',
         type: 'basic'}
+    bool = 1;
     chrome.notifications.create('', options);
 }
 
+chrome.alarms.onAlarm.addListener(onAlarmLong);
+
 function onAlarmLong(longAlarm) {
+    console.log("long alarm called");
     var longTitle = titleLong[Math.floor((Math.random() * titleLong.length))];
-    var options = {
+    var options1 = {
         title: longTitle,
         message: 'Click for a 10 minute video!',
         iconUrl: '48icon.png',
         type: 'basic'}
-    chrome.notifications.create('', options);
+    bool = 0;
+    chrome.notifications.create('', options1);
 }
 
 
 
 //Checks if the message is for a short or a long message and creates notification
 //accordingly 
+abc = 1;
 chrome.runtime.onMessage.addListener(data => {
-    bool = 0;
-    if (data.var == "shorty"){
-        bool = 1;
-    }
+
     if (data.type == 'clearMessage') {
         clearAlarm();
     }
     if (data.type == 'createMessage'){
+        abc += 1;
+        console.log(abc);
         timerDuration = data.timePeriod;
         createAlarm();
     }
+
     if (data.type == 'createLongMessage'){
         longTimerDuration = data.timePeriod;
         createLongAlarm();
     }
-
     if (data.type == 'getNow'){
         getNow();
-    }
-    if (data.type === 'notification') {
-    chrome.notifications.create('', data.options);
     }
   });
 
@@ -108,6 +111,6 @@ chrome.notifications.onClicked.addListener(function(notifId) {
       chrome.tabs.create({url: item });  //use it here
       }
       if (bool == 0){
-    chrome.tabs.create({url: longItem });  //use it here  
+        chrome.tabs.create({url: longItem });  //use it here  
       }
   });

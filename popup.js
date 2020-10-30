@@ -1,11 +1,11 @@
 var enabled = 0;
 var timerDuration;
 var longTimerDuration;
+var fromSet = 0;
 
 function setMinutes(){
     timerDuration = document.getElementById('stretchMinutes').value;
     longTimerDuration = document.getElementById('longMinutes').value;
-    console.log("the value is :",timerDuration);
 }
 
 
@@ -21,8 +21,8 @@ function checkAlarms(){
 
     chrome.storage.local.get(['saved'],function(result) {
         if (result.saved == 'yes'){
-            document.getElementById('stretchMinutes').value = Number(storedTime);
-            document.getElementById('enable').click();        
+            document.getElementById('stretchMinutes').value = Number(storedTime);    
+            document.getElementById('selectConfirm').style.opacity = "1";  
         }
     });
     chrome.storage.local.get(['longTimeSaved'],function(result) {
@@ -35,12 +35,24 @@ function checkAlarms(){
 
 checkAlarms();
 
-function createAlarm() {
+function createAlarms() {
     setMinutes()
-    chrome.runtime.sendMessage('', {
+    if (timerDuration != 0){
+        console.log("alarm set");
+        chrome.runtime.sendMessage('', {
         type: 'createMessage',
         timePeriod: timerDuration
       });
+    }
+    if (longTimerDuration != 0) {
+        console.log("Long alarm set");
+        chrome.runtime.sendMessage('', {
+        type: 'createLongMessage',
+        timePeriod: longTimerDuration
+      });}
+
+    chrome.storage.local.set({'longTime':Number(longTimerDuration)}, function(){});
+    chrome.storage.local.set({'longTimeSaved': 'yes'}, function(){});
     chrome.storage.local.set({'time':Number(timerDuration)}, function(){});
     chrome.storage.local.set({'saved': 'yes'}, function(){});
 }
@@ -49,16 +61,6 @@ function getNow() {
     chrome.runtime.sendMessage('', {
         type: 'getNow',
       });
-}
-
-function createLongAlarm() {
-    setMinutes()
-    chrome.runtime.sendMessage('', {
-        type: 'createLongMessage',
-        timePeriod: longTimerDuration
-      });
-    chrome.storage.local.set({'longTime':Number(longTimerDuration)}, function(){});
-    chrome.storage.local.set({'longTimeSaved': 'yes'}, function(){});
 }
 
 function clearAlarm() {
@@ -76,39 +78,36 @@ document.getElementById('enable').addEventListener('click', () => {
         enabled = 0;
         document.getElementById('EnabledText').innerHTML = '&nbsp; Disabled';
         document.getElementById('EnabledText').style.color = " #7a7979";
+        document.getElementById('selectConfirm').style.opacity = "0";
 
     }
     else {
         enabled = 1;
+        if (fromSet == 0){
         chrome.storage.local.set({'enabled': 1}, function(){});
         document.getElementById('EnabledText').innerHTML = '&nbsp; Enabled';
         document.getElementById('EnabledText').style.color = "#73d38b";
         setMinutes();
-        createAlarm()
+        createAlarms()
+        }
+        fromSet = 0;
     }
 })
 
 
-
-document.getElementById("setStretchDuration").addEventListener('click', () => {
-    if (enabled == 0) {
-    document.getElementById('enable').click();
-    chrome.storage.local.set({'enabled': 1}, function(){});
-    enabled = 1;        
-    document.getElementById('EnabledText').innerHTML = '&nbsp; Enabled';
-    document.getElementById('EnabledText').style.color = "#73d38b";
-    };
-    createAlarm() });
-
 document.getElementById("setLongDuration").addEventListener('click', () => {
     if (enabled == 0) {
+    fromSet = 1;
     document.getElementById('enable').click();
     chrome.storage.local.set({'enabled': 1}, function(){});
     enabled = 1;        
     document.getElementById('EnabledText').innerHTML = '&nbsp; Enabled';
     document.getElementById('EnabledText').style.color = "#73d38b";
     };
-    createLongAlarm() });
+    document.getElementById('selectConfirm').style.opacity = "1";
+    clearAlarm;
+    createAlarms() ;});
+
 
 document.getElementById("getStretch").addEventListener('click', () => {      
     getNow() });

@@ -42,6 +42,22 @@
     height: 15px;
     }
 
+
+#selectConfirm{
+  padding-top: 10px;
+  width:270px;
+  background-color: white;
+  text-align: center;
+  vertical-align: center;
+  line-height: 1.5;
+  margin: auto;
+  height: 10px;
+  opacity: 0;
+  transition: opacity 0.5s;
+  color: #73d38b;
+  font-style: oblique;
+}
+
 path {
   fill: transparent;
 }
