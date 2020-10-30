@@ -4,19 +4,21 @@ var longTimerDuration;
 var abc;
 
 var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
-"Well, well, well, if it isn't another stretch")
+"Well,well,well, if it isn't another stretch", "You've worked hard! Rest your eyes!", "Did someone say streettchhhh?", "What's amazing and rhymes with fetch", "Time for a quick break!",
+"Like Ross and Rachel, you need a break", "Let's keep that spine feeling fine", "Are you a limo? Because stretch")
 
-var titleLong =  Array("You've earned this break!", "Let's take a few minutes away from the computer", "Let's get that body moving!", "Let's open up a can of movement" )
+var titleLong =  Array("You've earned this break!", "Let's take a few minutes away from the computer", "Let's get that body moving!", "Let's open up a can of movement", "Time for a nice break!",
+"You've been working hard! Treat yourself!", "Knock knock, who's there? Stretch.")
 
 
 function createAlarm(){
-    console.log("Thi sis called");
+    console.log("created");
     chrome.alarms.create('shortAlarm', {
         delayInMinutes: Number(timerDuration), periodInMinutes: Number(timerDuration)});
 }
 
 function createLongAlarm(){
-    console.log("this is also called");
+    console.log("long alarm created");
     chrome.alarms.create('longAlarm', {
         delayInMinutes: (Number(longTimerDuration) * 60), periodInMinutes: (Number(longTimerDuration) * 60)});
 }
@@ -35,10 +37,8 @@ function clearAlarm(){
     chrome.alarms.clearAll();
 }
 
-chrome.alarms.onAlarm.addListener(onAlarm);
-
-function onAlarm(shortAlarm) {
-    console.log("alarm called");
+chrome.alarms.onAlarm.addListener( function (alarm) {
+    if (alarm.name == "shortAlarm") {
     var shortTitle = titleShort[Math.floor((Math.random() * titleShort.length))];
     var options = {
         title: shortTitle,
@@ -47,12 +47,8 @@ function onAlarm(shortAlarm) {
         type: 'basic'}
     bool = 1;
     chrome.notifications.create('', options);
-}
-
-chrome.alarms.onAlarm.addListener(onAlarmLong);
-
-function onAlarmLong(longAlarm) {
-    console.log("long alarm called");
+    }
+    else if (alarm.name == "longAarm"){
     var longTitle = titleLong[Math.floor((Math.random() * titleLong.length))];
     var options1 = {
         title: longTitle,
@@ -61,26 +57,27 @@ function onAlarmLong(longAlarm) {
         type: 'basic'}
     bool = 0;
     chrome.notifications.create('', options1);
-}
+    }
+});
 
 
 
 //Checks if the message is for a short or a long message and creates notification
 //accordingly 
-abc = 1;
 chrome.runtime.onMessage.addListener(data => {
 
     if (data.type == 'clearMessage') {
+        console.log('clear called');
         clearAlarm();
     }
     if (data.type == 'createMessage'){
-        abc += 1;
-        console.log(abc);
+        console.log('create called');
         timerDuration = data.timePeriod;
         createAlarm();
     }
 
     if (data.type == 'createLongMessage'){
+        console.log('long create called');
         longTimerDuration = data.timePeriod;
         createLongAlarm();
     }
@@ -99,9 +96,10 @@ var videos = Array("https://youtu.be/KBaSGF6kYqw?t=21","https://youtu.be/KBaSGF6
 "https://youtu.be/CAq9vV7gkrs?t=242","https://youtu.be/CAq9vV7gkrs?t=298", "https://youtu.be/CAq9vV7gkrs?t=355",
 "https://youtu.be/CAq9vV7gkrs?t=364")
 
-var longVideos = Array("https://youtu.be/w1INfs260DY?t=470", "https://www.youtube.com/watch?v=tAUf7aajBWE", "https://www.youtube.com/watch?v=M-8FvC3GD8c", 
-"https://www.youtube.com/watch?v=6fnLKyRJsrs", "https://www.youtube.com/watch?v=HV_eJ82KE0Q", "https://www.youtube.com/watch?v=w3C08dhJ_SM", "https://www.youtube.com/watch?v=EHMRMibVO2I",
-"https://www.youtube.com/watch?v=4pKly2JojMw", "https://www.youtube.com/watch?v=VaoV1PrYft4")
+var longVideos = Array("https://youtu.be/3Elmwad8XDI?t=28", "https://www.youtube.com/watch?v=tAUf7aajBWE", "https://www.youtube.com/watch?v=M-8FvC3GD8c", 
+"https://www.youtube.com/watch?v=6fnLKyRJsrs",
+"https://www.youtube.com/watch?v=4pKly2JojMw","https://youtu.be/NCJeh1pk1no", "https://youtu.be/oar85e9GdLw?t=4", "https://www.youtube.com/watch?v=X3-gKPNyrTA&t=6s",
+"https://www.youtube.com/watch?v=XeXz8fIZDCE", "https://www.youtube.com/watch?v=Nnd5Slo02us", "https://youtu.be/EMU5ERi3gg0?t=25", "https://youtu.be/x-68UM13MhA")
   
 //When button is clicked, picks a video accordingly.
 chrome.notifications.onClicked.addListener(function(notifId) {

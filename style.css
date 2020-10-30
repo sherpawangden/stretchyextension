@@ -7,7 +7,7 @@
     font-size: 18px;
     font-family: Verdana; 
     font-weight: 150;
-    line-height: 1.2;
+    line-height: 1.3;
     border-radius: 4px;
     margin: auto;
   }
@@ -26,7 +26,7 @@
   background-color: white;
   text-align: center;
   vertical-align: center;
-  line-height: 1.5;
+  line-height: 1.8;
   margin: auto;
   height: 25px;
   }
@@ -37,9 +37,9 @@
     background-color: white;
     text-align: center;
     vertical-align: center;
-    line-height: 1.5;
+    line-height: 1.8;
     margin: auto;
-    height: 15px;
+    height: 18px;
     }
 
 
@@ -74,6 +74,10 @@ text {
     vertical-align: middle;
     background-color:white;
     border-radius: 5px;
+}
+
+#Buttons {
+  vertical-align: middle;
 }
   
 button {
@@ -128,6 +132,7 @@ body {
     background-color: #73d38b;
     color:  white;
     width: 300px;
+    height: 470px;
 }
 
   /* The switch - the box around the slider */
