@@ -25,11 +25,31 @@ function checkAlarms(){
             turnButtonOff();
         }
     });
+
     chrome.storage.local.get(['longTimeSaved'],function(result) {
         if (result.longTimeSaved == 'yes'){
             document.getElementById('longMinutes').value = Number(storedLongTime);  
         }
     });
+
+    chrome.storage.local.get(['muteSaved'],function(result) {
+        if (result.muteSaved == 'yes'){
+            document.getElementById("unmuted").style.display = "none";
+            document.getElementById("unmutelight").style.display = "none";
+            document.getElementById("muted").style.display = "inline-block";
+        }
+        if (result.muteSaved == 'light') {
+            document.getElementById("muted").style.display = "none";
+            document.getElementById("unmuted").style.display = "none";
+            document.getElementById("unmutelight").style.display = "inline-block";
+        }
+        if (result.muteSaved == 'no') {
+            document.getElementById("muted").style.display = "none";
+            document.getElementById("unmuted").style.display = "inline-block";
+            document.getElementById("unmutelight").style.display = "none";
+        }
+    });
+    
 }
 
 function turnButtonOff () {
@@ -80,6 +100,51 @@ function clearAlarm() {
     chrome.storage.local.set({'saved': 'no'}, function(){});
     chrome.storage.local.set({'longTimeSaved': 'no'}, function(){});
 }
+
+function unMuteLight() {
+    chrome.runtime.sendMessage('', {
+        type: 'unmuteLightMessage',
+    });
+    chrome.storage.local.set({'muteSaved': 'light'}, function(){});
+}
+
+function unMute(){
+    chrome.runtime.sendMessage('', {
+        type: 'unmuteMessage',
+    });
+    chrome.storage.local.set({'muteSaved': 'no'}, function(){});
+}
+
+function Mute(){
+    chrome.runtime.sendMessage('', {
+        type: 'muteMessage',
+    });
+    chrome.storage.local.set({'muteSaved': 'yes'}, function(){});
+}
+
+document.getElementById("unmuted").addEventListener('click', () => {
+    document.getElementById("unmuted").style.display = "none";
+    document.getElementById("unmutelight").style.display = "none";
+    document.getElementById("muted").style.display = "inline-block";
+    Mute();
+
+});
+
+document.getElementById("unmutelight").addEventListener('click', () => {
+    document.getElementById("unmutelight").style.display = "none";
+    document.getElementById("muted").style.display = "none";
+    document.getElementById("unmuted").style.display = "inline-block";
+    unMute();
+    
+
+});
+
+document.getElementById("muted").addEventListener('click', () => {
+    document.getElementById("muted").style.display = "none";
+    document.getElementById("unmutelight").style.display = "inline-block";
+    document.getElementById("unmuted").style.display = "none";
+    unMuteLight();
+});
 
 
 document.getElementById("setLongDuration").addEventListener('click', () => {

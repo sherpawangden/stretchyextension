@@ -12,6 +12,12 @@
     margin: auto;
   }
 
+#tail {
+  width:270px;
+  background-color: white;
+  margin: auto;
+  height: 37px;
+}
 #header1{
     letter-spacing: 3px;
     font-size: 80px;
@@ -44,18 +50,26 @@
 
 
 #selectConfirm{
-  padding-top: 10px;
-  width:270px;
+  padding-top: 7px;
+  width:220px;
   background-color: white;
-  text-align: center;
-  vertical-align: center;
   line-height: 1.5;
-  margin: auto;
+  text-align: left;
   height: 10px;
   opacity: 0;
   transition: opacity 0.5s;
   color: #73d38b;
   font-style: oblique;
+  float: right;
+}
+
+#imageMute{
+  padding-left: 4px;
+  width:45px;
+  background-color: white;
+  height: 35px;
+  float: left;
+  cursor: hand;
 }
 
 path {

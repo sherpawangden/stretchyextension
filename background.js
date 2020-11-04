@@ -2,6 +2,7 @@ var timerDuration;
 var bool;
 var longTimerDuration;
 var abc;
+var mute = 1;
 
 var titleShort = Array("Let's take a lil break", "Did someone say stretch?", "Time for a wellness break!", "Your joints called, it's time to stretch", 
 "Well,well,well, if it isn't another stretch", "You've worked hard! Rest your eyes!", "Did someone say streettchhhh?", "What's amazing and rhymes with fetch", "Time for a quick break!",
@@ -30,7 +31,21 @@ function getNow(){
         message: 'Click for a short video!',
         iconUrl: '48icon.png',
         type: 'basic'}
+    audioNotification();
     chrome.notifications.create('', options);
+    
+}
+
+function audioNotification(){
+    var yourSound = new Audio('bell2.mp3');
+    if (mute == 1) {
+        yourSound.volume = 1.0;
+        yourSound.play();
+    }
+    if (mute == 2) {
+        yourSound.volume = 0.3;
+        yourSound.play();
+    }
 }
 
 function clearAlarm(){
@@ -47,6 +62,7 @@ chrome.alarms.onAlarm.addListener( function (alarm) {
         type: 'basic'}
     bool = 1;
     chrome.notifications.create('', options);
+    audioNotification();
     }
     else if (alarm.name == "longAarm"){
     var longTitle = titleLong[Math.floor((Math.random() * titleLong.length))];
@@ -57,6 +73,7 @@ chrome.alarms.onAlarm.addListener( function (alarm) {
         type: 'basic'}
     bool = 0;
     chrome.notifications.create('', options1);
+    audioNotification();
     }
 });
 
@@ -83,6 +100,16 @@ chrome.runtime.onMessage.addListener(data => {
     }
     if (data.type == 'getNow'){
         getNow();
+        bool = 2;
+    }
+    if (data.type == "muteMessage") {
+        mute = 0;
+    }
+    if (data.type == "unmuteMessage") {
+        mute = 1;
+    }
+    if (data.type == "unmuteLightMessage") {
+        mute = 2;
     }
   });
 
@@ -110,5 +137,8 @@ chrome.notifications.onClicked.addListener(function(notifId) {
       }
       if (bool == 0){
         chrome.tabs.create({url: longItem });  //use it here  
+      }
+      else {
+        chrome.tabs.create({url: item });  //use it here
       }
   });
