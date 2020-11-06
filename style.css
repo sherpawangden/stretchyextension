@@ -64,10 +64,11 @@
 }
 
 #imageMute{
-  padding-left: 4px;
-  width:45px;
+  padding-top: 1px;
+  padding-left: 1px;
+  width:40px;
   background-color: white;
-  height: 35px;
+  height: 34px;
   float: left;
   cursor: hand;
 }

@@ -37,7 +37,7 @@ function getNow(){
 }
 
 function audioNotification(){
-    var yourSound = new Audio('bell2.mp3');
+    var yourSound = new Audio('bellfinal.mp3');
     if (mute == 1) {
         yourSound.volume = 1.0;
         yourSound.play();
